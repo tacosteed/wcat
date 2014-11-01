@@ -17,6 +17,8 @@ class Api extends Data
     private $_user_agent = 'User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)';
     #API_URL
     private $_api_url = null;
+    #TYPE
+    private $_type = 'get';
     #ID
     private $_id = null;
     #PW
@@ -38,10 +40,11 @@ class Api extends Data
         print "get $this->_api_url\n";
 
         $base_condition = array(
-            'url' => $this->_api_url,
-            'header' => $this->_req_header,
+            'url'         => $this->_api_url,
+            'header'      => $this->_req_header,
             'maxredirect' => $this->_maxredirect,
-            'useragent' => $this->_user_agent
+            'useragent'   => $this->_user_agent,
+            'type'        => $this->_type
         );
 
         $accessInfo = array_merge($base_condition, $this->_condition);
@@ -150,6 +153,12 @@ class Api extends Data
     public function setApiUrl($url)
     {
         $this->_api_url = $url;
+        return;
+    }
+
+    public function setType($type)
+    {
+        $this->_type = $type;
         return;
     }
 
