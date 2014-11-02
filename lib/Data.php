@@ -6,7 +6,9 @@
  * @date 2014-05-20
  */
 
-class Data
+require_once 'Common.php';
+
+class Data extends Common
 {
 
     private $_result = null;

@@ -5,7 +5,7 @@ require_once ini_get('include_path') . '/google/googleApi.php';
 require_once ini_get('include_path') . '/google/googleGrep.php';
 require_once ini_get('include_path') . '/lib/Common.php';
 
-class getSerps
+class getSerps extends Common
 {
 
     #ランダムスリープ用
@@ -24,6 +24,7 @@ class getSerps
     public function run($param)
     {
 
+$this->getWorkDir();die;
         $serp_count = 0;
         $rank = 1;
 

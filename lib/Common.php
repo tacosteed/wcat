@@ -2,12 +2,22 @@
 /**
  * @file
  * @brief 共通処理クラス
- * @author yano-tatsuya
  * @date 2014-05-20
  */
 
+require_once 'include.php';
+
 class Common
 {
+
+    public function getWorkDir() {
+
+        $associative = debug_backtrace();
+        
+        print $associative[0]["file"];
+
+
+    }
 
     /**
      * ファイル読み込み
