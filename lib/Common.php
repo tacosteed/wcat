@@ -32,7 +32,7 @@ class Common
 
 	}
 
-    public function setWorkDir($path) {
+	public function setWorkDir($path) {
 
 		$path = $path. 'work/';
 
@@ -42,9 +42,9 @@ class Common
 
 		return $path;
 
-    }
+	}
 
-    public function setResultDir($path) {
+	public function setResultDir($path) {
 
 		$path = $path. 'result/';
 
@@ -54,38 +54,38 @@ class Common
 
 		return $path;
 
-    }
+	}
 
-    private function _getDir($file) {
+	private function _getDir($file) {
 
-        $project = $this->_ini['project']['name'];
-        $path = preg_replace("/^.*$project/", "", $file);
-        $pos = strrpos($path, '/');
-        $path = substr($path, 0, $pos + 1);
+		$project = $this->_ini['project']['name'];
+		$path = preg_replace("/^.*$project/", "", $file);
+		$pos = strrpos($path, '/');
+		$path = substr($path, 0, $pos + 1);
 
-        return $this->_ini['path']['data']. $project. $path;
+		return $this->_ini['path']['data']. $project. $path;
 
-    }
+	}
 
-    public function readInputFile($file, $separate = "\t") {
+	public function readInputFile($file, $separate = "\t") {
 
-        $ret = array();
+		$ret = array();
 
-        //インプットファイルOPEN
-        if (!(is_readable($file) && ($fp = fopen($file, "rb")))) {
-                die("Cannot Read InputFile");
-        }
+		//インプットファイルOPEN
+		if (!(is_readable($file) && ($fp = fopen($file, "rb")))) {
+			die("Cannot Read InputFile");
+		}
 
-        while (($row = fgets($fp)) !== false) {
+		while (($row = fgets($fp)) !== false) {
 
-            $column = split($separate, str_replace(array("\r\n","\r","\n"), '', $row));
-            $ret[count($ret)] = $column;
+			$column = split($separate, str_replace(array("\r\n","\r","\n"), '', $row));
+			$ret[count($ret)] = $column;
 
-        }
+		}
 
-        fclose ($fp);
-        return $ret;
-    }
+		fclose ($fp);
+		return $ret;
+	}
 
 	public function getResultDir() {
 		return $this->_resultDir;
