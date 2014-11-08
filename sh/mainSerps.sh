@@ -11,7 +11,7 @@ echo_start "mainSerps" $$
 
 while read keyword
 do
-    $SERPS_PATH/getSerps.php "$keyword" $MAX_RANK $PAGE_CNT $$
+	$PHP_PATH $SERPS_PATH/getSerps.php "$keyword" $MAX_RANK $PAGE_CNT $$
 done < $IN_FILE
 wait
 

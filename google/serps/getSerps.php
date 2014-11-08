@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 require_once '../lib/include.php';
 require_once ini_get('include_path') . '/google/googleApi.php';

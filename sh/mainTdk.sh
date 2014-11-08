@@ -9,6 +9,6 @@ TDK_PATH=$COMMON_PATH/$PATH
 
 echo_start "mainTdk" $$
 
-$TDK_PATH/getTdk.php $IN_FILE $$ $2
+$PHP_PATH $TDK_PATH/getTdk.php $IN_FILE $$ $2
 
 echo_end "mainTdk" $$
