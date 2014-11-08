@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-require_once '../../lib/include.php';
+require_once '../lib/include.php';
 require_once ini_get('include_path') . '/google/googleApi.php';
 require_once ini_get('include_path') . '/google/googleGrep.php';
 require_once ini_get('include_path') . '/lib/Common.php';
@@ -16,20 +16,20 @@ class getSerps extends Common
     const SEPARATE = "\t";
     #改行文字
     const PARAGRAPH = "\n";
-    #出力ディレクトリ
-    const OUT_DIR = "result/";
-    #ワークディレクトリ
-    const WORK_DIR = "work/";
- 
+
+    public function __construct(){
+    	parent::__construct();
+    }
+
     public function run($param)
     {
 
-$this->getWorkDir();die;
         $serp_count = 0;
         $rank = 1;
 
+        $this->makeDir($param['parent_pid']);
         $keyword = $param['keyword'];
-        $resultFile = self::OUT_DIR. $param['parent_pid']. '/'.
+        $resultFile = $this->getResultDir().
             getmypid(). '_'. urlencode($keyword). '.tsv';
 
         $ofp = fopen($resultFile, 'w');
@@ -38,7 +38,7 @@ $this->getWorkDir();die;
         while ($param['max_rank'] > $rank) {
 
             print "get $keyword count $serp_count\n";
-            $file = self::WORK_DIR. $param['parent_pid']. '/'. 
+            $file = $this->getWorkDir().
                 getmypid(). '_'. urlencode($keyword). '_'. $serp_count. '.html';
 
             #Googleにアクセスし
@@ -64,7 +64,7 @@ $this->getWorkDir();die;
                     $val['title'],
                     $val['description']
                 );
- 
+
                 #結果をファイルOUT
                 fwrite($ofp, implode($out, self::SEPARATE). self::PARAGRAPH);
                 $rank++;
