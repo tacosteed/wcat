@@ -4,7 +4,7 @@ source ../include/serps.conf
 source ../lib/common.sh
 
 IN_FILE=$1
-RESULT_DIR=result/$$
+RESULT_DIR=/var/local/data/wcat/google/serps/result/$$
 SERPS_PATH=$COMMON_PATH/$PATH
 
 echo_start "mainSerps" $$
