@@ -6,8 +6,9 @@
  */
 
 require_once 'include.php';
+require_once 'Processctrl.php';
 
-class Common
+class Common extends Processctrl
 {
 
 	private $_ini = array();
