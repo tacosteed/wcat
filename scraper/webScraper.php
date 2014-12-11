@@ -62,7 +62,7 @@ class webScraper extends Api
     public function getHead()
     {
         preg_match('/<head(.*?)<\/head>/si', $this->getContent(), $head);
-        return $this->scraperTrim($head[1]);
+        return $head[1] ? $this->scraperTrim($head[1]) : null;
     }
 
     public function getTitle()

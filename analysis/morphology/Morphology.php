@@ -46,7 +46,11 @@ class Morphology extends Analysis
 		$this->_sentence = $sentence;
 	}
 
-	public function getWord() {
+	public function getWord($sort = 'asort') {
+		if ($sort != 'asort' && $sort != 'arsort') {
+			return false;
+		}
+		$sort($this->_word);
 		return $this->_word;
 	}
 }

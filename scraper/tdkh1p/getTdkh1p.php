@@ -21,6 +21,7 @@ class getTdk extends Common
 
 		$inputFile = $param['input_file'];
 		$this->makeDir($param['parent_pid']);
+		$param['row'] = isset($param['row']) ? $param['row'] : 0;
 
 		$resultFile = $this->getResultDir().
 			getmypid(). 'tsv';
@@ -39,21 +40,24 @@ class getTdk extends Common
 			$title = $scraper->getTitle();
 
 			if ($title) {
-				fwrite($ofp, $title. self::SEPARATE. $url. self::PARAGRAPH);
+				fwrite($ofp, $title. self::SEPARATE. 'title'.
+					self::SEPARATE. $url. self::PARAGRAPH);
 			}
 
 			// ディスクリプション
 			$description = $scraper->getDescription();
 
 			if ($description) {
-				fwrite($ofp, $description. self::SEPARATE. $url. self::PARAGRAPH);
+				fwrite($ofp, $description. self::SEPARATE. 'description'.
+					self::SEPARATE. $url. self::PARAGRAPH);
 			}
 
 			// キーワード
 			$keyword = $scraper->getKeyword();
 
 			if ($keyword) {
-				fwrite($ofp, $keyword. self::SEPARATE. $url. self::PARAGRAPH);
+				fwrite($ofp, $keyword. self::SEPARATE. 'keyword'.
+					self::SEPARATE. $url. self::PARAGRAPH);
 			}
 
 			// h1
@@ -61,7 +65,10 @@ class getTdk extends Common
 
 			if (is_array($h1s)) {
 				foreach ($h1s as $h1) {
-					fwrite($ofp, $h1. self::SEPARATE. $url. self::PARAGRAPH);
+					if ($h1) {
+						fwrite($ofp, $h1. self::SEPARATE. 'h1'.
+							self::SEPARATE. $url. self::PARAGRAPH);
+					}
 				}
 			}
 
@@ -70,11 +77,14 @@ class getTdk extends Common
 
 			if (is_array($ps)) {
 				foreach ($ps as $p) {
-					fwrite($ofp, $p. self::SEPARATE. $url. self::PARAGRAPH);
+					if ($p) {
+						fwrite($ofp, $p. self::SEPARATE. 'p'.
+							self::SEPARATE. $url. self::PARAGRAPH);
+					}
 				}
 			}
 
-			sleep(1);
+			sleep(0);
 
 		}
 
