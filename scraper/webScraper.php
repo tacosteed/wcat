@@ -2,7 +2,6 @@
 /**
  * @file
  * @brief WEBスクレイピングクラス
- * @author yano-tatsuya
  * @date 2014-05-20
  */
 require_once ini_get('include_path') . '/lib/Api.php';
@@ -63,7 +62,7 @@ class webScraper extends Api
     public function getHead()
     {
         preg_match('/<head(.*?)<\/head>/si', $this->getContent(), $head);
-        return $this->scraperTrim($head[1]);
+        return $head[1] ? $this->scraperTrim($head[1]) : null;
     }
 
     public function getTitle()
@@ -97,6 +96,17 @@ class webScraper extends Api
         }
 
         return $h1[1];
+    }
+
+    public function getP()
+    {
+        preg_match_all('/<p(.*?)<\/p>/si', $this->getContent(), $p);
+        for ($i = 0 ; $i < count($p[1]); $i++) {
+            preg_match('/>(.*?)$/si', $p[1][$i], $text);
+            $p[1][$i] = $this->scraperTrim($text[1]);
+        }
+
+        return $p[1];
     }
 
     public function scraperTrim($str)
