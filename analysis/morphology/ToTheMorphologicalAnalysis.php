@@ -13,15 +13,15 @@ class ToTheMorphologicalAnalysis extends Common
 	const PARAGRAPH = "\n";
 
     public function __construct(){
-    	parent::__construct();
+		parent::__construct();
     }
 
     public function run($param)
     {
 
-    	$file = $this->readInputFile($param['in_file_name']);
+		$file = $this->readInputFile($param['in_file_name']);
 		$this->makeDir($param['parent_pid']);
-    	$morphology = new Morphology();
+		$morphology = new Morphology();
 		$resultFile = $this->getResultDir().
 			getmypid(). '.tsv';
 
@@ -41,11 +41,14 @@ class ToTheMorphologicalAnalysis extends Common
 //		});
 
 		$keyword = null;
-    	foreach ($file as $key => $sentence) {
-			if ($keyword != $sentence[$param['keyword_row']] && $key != 0) {
+		foreach ($file as $key => $sentence) {
+			if ($keyword != $sentence[$param['keyword_row']] && $key != 0 ||
+				$key == count($file) - 1) {
+
 				$ret = $morphology->getWord('arsort');
 				$this->outFile($ret, $resultFile, $keyword);
 				$morphology->clearWord();
+
 			}
 			$keyword = $sentence[$param['keyword_row']];
 			$morphology->setSentence($sentence[$param['sentence_row']]);
@@ -57,11 +60,12 @@ class ToTheMorphologicalAnalysis extends Common
     public function outFile($ret, $resultFile, $keyword)
     {
 
+		echo $keyword. "\n";
 		$ofp = fopen($resultFile, 'a');
 
-    	foreach ($ret as $key => $count) {
+		foreach ($ret as $key => $count) {
 			fwrite($ofp, $keyword. self::SEPARATE. $key. self::SEPARATE. $count. self::PARAGRAPH);
-    	}
+		}
 
     }
 
