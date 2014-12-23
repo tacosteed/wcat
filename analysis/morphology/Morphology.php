@@ -42,6 +42,10 @@ class Morphology extends Analysis
 
 	}
 
+	public function clearWord() {
+		$this->_word = array();
+	}
+
 	public function setSentence($sentence) {
 		$this->_sentence = $sentence;
 	}

@@ -23,7 +23,7 @@ class ToTheMorphologicalAnalysis extends Common
 		$this->makeDir($param['parent_pid']);
     	$morphology = new Morphology();
 		$resultFile = $this->getResultDir().
-			getmypid(). 'tsv';
+			getmypid(). '.tsv';
 
 //		$pctrl = Processctrl::getInstace();
 //		$pctrl->setMaxProcess(4);
@@ -40,16 +40,27 @@ class ToTheMorphologicalAnalysis extends Common
 //			}
 //		});
 
+		$keyword = null;
     	foreach ($file as $key => $sentence) {
-			$morphology->setSentence($sentence[0]);
+			if ($keyword != $sentence[$param['keyword_row']] && $key != 0) {
+				$ret = $morphology->getWord('arsort');
+				$this->outFile($ret, $resultFile, $keyword);
+				$morphology->clearWord();
+			}
+			$keyword = $sentence[$param['keyword_row']];
+			$morphology->setSentence($sentence[$param['sentence_row']]);
 			$morphology->countWord('noun');
-    	}
+		}
 
-		$ret = $morphology->getWord('arsort');
-		$ofp = fopen($resultFile, 'w');
+    }
+
+    public function outFile($ret, $resultFile, $keyword)
+    {
+
+		$ofp = fopen($resultFile, 'a');
 
     	foreach ($ret as $key => $count) {
-			fwrite($ofp, $key. self::SEPARATE. $count. self::PARAGRAPH);
+			fwrite($ofp, $keyword. self::SEPARATE. $key. self::SEPARATE. $count. self::PARAGRAPH);
     	}
 
     }
@@ -59,7 +70,8 @@ class ToTheMorphologicalAnalysis extends Common
 $analysis = new ToTheMorphologicalAnalysis();
 $param = array(
 	'in_file_name'		=> @$argv[1],
-	'out_file_name'		=> @$argv[1],
 	'parent_pid'		=> @$argv[2],
+	'sentence_row'		=> @$argv[3],
+	'keyword_row'		=> @$argv[4],
 );
 $analysis->run($param);

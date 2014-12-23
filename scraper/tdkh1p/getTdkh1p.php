@@ -21,17 +21,18 @@ class getTdk extends Common
 
 		$inputFile = $param['input_file'];
 		$this->makeDir($param['parent_pid']);
-		$param['row'] = isset($param['row']) ? $param['row'] : 0;
+		$param['url_row'] = isset($param['url_row']) ? $param['url_row'] : 0;
 
 		$resultFile = $this->getResultDir().
-			getmypid(). 'tsv';
+			getmypid(). '.tsv';
 		$list = $this->readInputFile($inputFile);
 		$ofp = fopen($resultFile, 'w');
 
 		foreach ($list as $key => $val) {
 
 			$out = array();
-			$url = $val[$param['row']];
+			$url = $val[$param['url_row']];
+			$base_keyword = $val[$param['keyword_row']];
 
 			$scraper = new webScraper();
 			$scraper->access($url);
@@ -41,7 +42,7 @@ class getTdk extends Common
 
 			if ($title) {
 				fwrite($ofp, $title. self::SEPARATE. 'title'.
-					self::SEPARATE. $url. self::PARAGRAPH);
+					self::SEPARATE. $url. self::SEPARATE. $base_keyword. self::PARAGRAPH);
 			}
 
 			// ディスクリプション
@@ -49,7 +50,7 @@ class getTdk extends Common
 
 			if ($description) {
 				fwrite($ofp, $description. self::SEPARATE. 'description'.
-					self::SEPARATE. $url. self::PARAGRAPH);
+					self::SEPARATE. $url. self::SEPARATE. $base_keyword. self::PARAGRAPH);
 			}
 
 			// キーワード
@@ -57,7 +58,7 @@ class getTdk extends Common
 
 			if ($keyword) {
 				fwrite($ofp, $keyword. self::SEPARATE. 'keyword'.
-					self::SEPARATE. $url. self::PARAGRAPH);
+					self::SEPARATE. $url. self::SEPARATE. $base_keyword. self::PARAGRAPH);
 			}
 
 			// h1
@@ -67,7 +68,7 @@ class getTdk extends Common
 				foreach ($h1s as $h1) {
 					if ($h1) {
 						fwrite($ofp, $h1. self::SEPARATE. 'h1'.
-							self::SEPARATE. $url. self::PARAGRAPH);
+							self::SEPARATE. $url. self::SEPARATE. $base_keyword. self::PARAGRAPH);
 					}
 				}
 			}
@@ -79,7 +80,7 @@ class getTdk extends Common
 				foreach ($ps as $p) {
 					if ($p) {
 						fwrite($ofp, $p. self::SEPARATE. 'p'.
-							self::SEPARATE. $url. self::PARAGRAPH);
+							self::SEPARATE. $url. self::SEPARATE. $base_keyword. self::PARAGRAPH);
 					}
 				}
 			}
@@ -97,6 +98,7 @@ $serps = new getTdk();
 $param = array(
 	'input_file'	=> @$argv[1],
 	'parent_pid'	=> @$argv[2],
-	'row'		=> @$argv[3],
+	'url_row'		=> @$argv[3],
+	'keyword_row'	=> @$argv[4],
 );
 $serps->run($param);
