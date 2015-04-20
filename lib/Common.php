@@ -96,5 +96,9 @@ class Common extends Processctrl
 		return $this->_workDir;
 	}
 
+	public function getIni() {
+		return $this->_ini;
+	}
+
 }
 
